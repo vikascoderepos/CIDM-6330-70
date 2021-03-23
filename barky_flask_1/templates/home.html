@@ -1,0 +1,112 @@
+<html>
+<HEAD>
+    <style>
+        table {
+          width:100%;
+        }
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        th, td {
+          padding: 15px;
+          text-align: left;
+        }
+        #t01 tr:nth-child(even) {
+          background-color: #eee;
+        }
+        #t01 tr:nth-child(odd) {
+         background-color: #fff;
+        }
+        #t01 th {
+          background-color: black;
+          color: white;
+        }
+        </style>
+
+        </HEAD>
+  <body>
+    <h1>Add a bookmark</h1>
+
+    <form method="POST" action="/">
+      <input type="text" name="title">
+      <input type="text" name="url">
+      <input type="text" name="notes">
+      <input type="submit" value="Add">
+    </form>
+
+    <h1>List bookmarks by date</h1>
+    <table id="t01">
+        <tr>
+          <th>Id</th>
+          <th>Title</th>
+          <th>Url</th>
+          <th>Notes</th>
+          <th>Date Added</th>
+        </tr>
+    {% for bookmark in bookmarks_by_date %}
+        <tr>
+           <td>{{bookmark.id}}</td>
+           <td>{{bookmark.title}}</td>
+           <td>{{bookmark.url}}</td>
+           <td>{{bookmark.notes}}</td>
+           <td>{{bookmark.date_added}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    
+    <h1>List bookmarks by title</h1>
+    <form method="POST" action="./update">
+
+    <table id="t01">
+        <tr>
+          <th>Id</th>
+          <th>Title</th>
+          <th>Url</th>
+          <th>Notes</th>
+          <th>Date Added</th>
+        </tr>
+    {% for bookmark in bookmarks_by_title %}
+        <tr>
+           <td>{{bookmark.id}}</td>
+           <td>{{bookmark.title}}</td>
+           <td>{{bookmark.url}}</td>
+           <td>{{bookmark.notes}}</td>
+           <td>{{bookmark.date_added}}</td>
+        </tr>
+    </form>
+    {% endfor %}
+    </table>
+
+
+
+
+
+    <h1>Edit a bookmark</h1>
+    {% for bookmark in bookmarks_by_title %}
+    <p>{{bookmark.title}}</p>
+    <form method="POST" action="./update">
+      <input type="hidden" value="{{bookmark.id}}" name="oldid">
+      <input type="text" value="{{bookmark.title}}" name="newtitle">
+      <input type="text" value="{{bookmark.url}}" name="newurl">
+      <input type="text" value="{{bookmark.notes}}" name="newnotes">
+      <input type="submit" value="Update">
+    </form>
+  {% endfor %}
+
+  <h1>Delete a bookmark</h1>
+  {% for bookmark in bookmarks_by_title %}
+  <p>{{bookmark.title}}</p>
+  <form method="POST" action="./delete">
+    <input type="hidden" value="{{bookmark.id}}" name="oldid">
+    <input type="text" value="{{bookmark.title}}" name="newtitle">
+    <input type="text" value="{{bookmark.url}}" name="newurl">
+    <input type="text" value="{{bookmark.notes}}" name="newnotes">
+    <input type="submit" value="Delete">
+  </form>
+{% endfor %}
+
+
+  </body>
+</html>
