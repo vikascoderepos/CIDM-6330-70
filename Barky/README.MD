@@ -39,3 +39,9 @@ CREATE TABLE IF NOT EXISTS bookmarks
 );
 ```
 
+# How to run the pytest on Modules we have written
+```sql
+python3 -m pytest test_database.py
+python3 -m pytest test_commands.py
+python3 -m pytest test_barky.py
+```
