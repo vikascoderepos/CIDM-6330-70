@@ -1,0 +1,40 @@
+from sqlalchemy import create_engine, Column, Integer, String, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, relationship
+
+import datetime
+import os
+
+Base = declarative_base()
+
+class Bookmark(Base):
+    __tablename__ = 'bookmark'
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String)
+    url = Column(String, unique=True)
+    notes = Column(String)
+    date_added = Column(DateTime, default=datetime.datetime.utcnow)
+
+
+#engine = create_engine('sqllite:///:memory:' , echo=True)
+#engine=create_engine('sqlite://',echo=True)
+engine=create_engine('sqlite:///bookmark.db',echo=True)
+
+Base.metadata.create_all(bind=engine)
+Session = sessionmaker(bind=engine)
+
+
+session = Session()
+
+bookmark = Bookmark()
+bookmark.title = "test1"
+bookmark.url = "http://test1.com"
+bookmark.notes = "test1 notes"
+session.add(bookmark)
+session.commit()
+# bookmarks = session.query(Bookmark).all()
+# for bookmark in bookmarks:
+#     print(bookmark.url)
+session.close()
+
