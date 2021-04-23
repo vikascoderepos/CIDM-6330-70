@@ -18,7 +18,9 @@ def add(item: CartItem , products: List[Product]) -> str:
         raise OutOfStock(f"Out of stock for sku {item.sku}")
 
 
-@dataclass(frozen=True)
+#@dataclass(frozen=True)
+@dataclass(unsafe_hash=True)
+
 class CartItem:
     itemid: str
     sku : str
