@@ -5,6 +5,7 @@ Method to run tests.
 
 ## set up modules:
 ```
+pip install requirements.txt
 pip install -e src
 ```
 
