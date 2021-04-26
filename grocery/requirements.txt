@@ -1,6 +1,19 @@
-pytest
+# app
 sqlalchemy
 flask
 psycopg2-binary
-requests
 python-dotenv
+
+# tests
+pytest
+pytest-icdiff
+mypy
+requests
+
+
+
+
+
+
+
+
