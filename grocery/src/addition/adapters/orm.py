@@ -1,9 +1,5 @@
-from sqlalchemy import (
-    Table, MetaData, Column, Integer, String, Float,
-    ForeignKey
-)
+from sqlalchemy import Table, MetaData, Column, Integer, String, Date, ForeignKey, Float
 from sqlalchemy.orm import mapper, relationship
-
 from addition.domain import model
 
 
