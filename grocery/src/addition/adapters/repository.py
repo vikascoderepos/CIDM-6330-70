@@ -4,23 +4,20 @@ from addition.domain import model
 
 class AbstractRepository(abc.ABC):
     @abc.abstractmethod
-    def add(self, product: model.Product):
+    def add(self, cart: model.Cart):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get(self, reference) -> model.Product:
+    def get(self, sku) -> model.Cart:
         raise NotImplementedError
 
 
 class SqlAlchemyRepository(AbstractRepository):
     def __init__(self, session):
         self.session = session
+    def add(self, cart):
 
-    def add(self, product):
-        self.session.add(product)
+        self.session.add(cart)
 
-    def get(self, reference):
-        return self.session.query(model.Product).filter_by(reference=reference).one()
-
-    def list(self):
-        return self.session.query(model.Product).all()
+    def get(self, sku):
+        return self.session.query(model.Cart).filter_by(sku=sku).first()

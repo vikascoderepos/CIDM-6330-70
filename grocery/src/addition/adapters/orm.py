@@ -14,17 +14,27 @@ cart_items = Table(
     Column("itemid", String(255)),
 )
 
+carts = Table(
+    "carts",
+    metadata,
+    Column("sku", String(255), primary_key=True),
+    Column("version_number", Integer, nullable=False, server_default="0"),
+)
+
 products = Table(
     "products",
     metadata,
     Column("id", Integer, primary_key=True, autoincrement=True),
     Column("reference", String(255)),
-    Column("sku", String(255)),
+    Column("sku", ForeignKey("carts.sku")),
     Column("_purchased_quantity", Integer, nullable=False),
     Column("maxAllowedPurchaseQty", Integer, nullable=False),
     Column("brand", String(255)),
     Column("price", Float),
 )
+
+
+
 
 items = Table(
     "items",
@@ -35,14 +45,20 @@ items = Table(
 )
 
 
+
 def start_mappers():
     items_mapper = mapper(model.CartItem, cart_items)
-    mapper(
+    products_mapper = mapper(
         model.Product,
         products,
         properties={
             "_items": relationship(
-                items_mapper, secondary=items, collection_class=set,
+                items_mapper,
+                secondary=items,
+                collection_class=set,
             )
         },
+    )
+    mapper(
+        model.Cart, carts, properties={"products": relationship(products_mapper)}
     )

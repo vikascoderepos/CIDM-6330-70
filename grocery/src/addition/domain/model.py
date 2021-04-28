@@ -9,18 +9,27 @@ class OutOfStock(Exception):
 class StocknotMatch(Exception):
     pass
 
-def add(item: CartItem , products: List[Product]) -> str:
-    try:
-        product = next(p for p in sorted(products) if p.can_add(item))
-        product.add(item)
-        return product.reference
-    except StopIteration:
-        raise OutOfStock(f"Out of stock for sku {item.sku}")
+
+
+class Cart:
+    def __init__(self, sku: str, products: List[Product], version_number: int = 0):
+        self.sku = sku
+        self.products = products
+        self.version_number = version_number
+
+
+    def add(self, item: CartItem) -> str:
+        try:
+            product = next(p for p in sorted(self.products) if p.can_add(item))
+            product.add(item)
+            self.version_number += 1
+            return product.reference
+        except StopIteration:
+            raise OutOfStock(f"Out of stock for sku {item.sku}")
 
 
 #@dataclass(frozen=True)
 @dataclass(unsafe_hash=True)
-
 class CartItem:
     itemid: str
     sku : str

@@ -1,4 +1,6 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 from addition.domain import model
 from addition.adapters import orm
@@ -36,9 +38,10 @@ def add_endpoint():
             unit_of_work.SqlAlchemyUnitOfWork(),
         )
     except (model.OutOfStock, services.InvalidSku) as e:
-        return jsonify({'message': str(e)}), 400
+        return {"message": str(e)}, 400
 
-    return jsonify({'productref': productref}), 201
+    return {"productref": productref}, 201
+
 
 
 
